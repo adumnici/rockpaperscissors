@@ -1,0 +1,8 @@
+.containerImage{
+    display: grid;
+    grid-template-columns: 0.4fr 0.2fr 0.4fr;
+    grid-template-rows: 1fr;
+    border: 5px solid black;
+    align-content: center;
+    justify-content: end;
+}
