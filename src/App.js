@@ -75,10 +75,14 @@ class App extends Component {
     }
 
   determineWinner(){
-    if(this.state.imageOfAiSelection > this.state.imageOfPlayerSelection && this.state.imageOfAiSelection !== 1){
+    if((this.state.imageOfAiSelection > this.state.imageOfPlayerSelection && this.state.imageOfAiSelection !== '1') || 
+    (this.state.imageOfAiSelection === '1' && this.state.imageOfPlayerSelection === '3')){
       this.setState({previousWinner: 'The Machine'})
+    } else if((this.state.imageOfPlayerSelection > this.state.imageOfAiSelection && this.state.imageOfAiSelection !== '1') || 
+    (this.state.imageOfPlayerSelection === '1' && this.state.imageOfAiSelection === '3')) {
+      this.setState({previousWinner: 'The Human'})
     } else {
-      this.setState({previousWinner: 'The Player'})
+      this.setState({previousWinner: 'Tie'})
     }
   }
 
