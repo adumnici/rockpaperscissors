@@ -21,24 +21,29 @@ class App extends Component {
     this.state={
       imageOfPlayerSelection: '',
       imageOfAiSelection: '',
-      roundsPlayed: 1,
+      roundsPlayed: 0,
       playerSelection: [],
-      aiSelection: [],
-      previousWinner:''
+      previousWinner: [],
+      playerTotal: 0,
+      drawsTotal: 0,
+      aiTotal: 0
     }
   }
  
-  changeHumanImage(event){
+  async changeHumanImage(event){
     this.setState({imageOfPlayerSelection: event.target.id});
+    await this.state.imageOfPlayerSelection;
+    // console.log('current player selection ' + this.state.imageOfPlayerSelection.toString())
   }
 
   updateRound(){
     this.setState({roundsPlayed: this.state.roundsPlayed + 1})
-    console.log(this.state.roundsPlayed)
   }
 
-  updatePlayerSelection(event){
+  async updatePlayerSelection(event){
     this.setState({playerSelection: this.state.playerSelection.concat(event.target.id) })
+    await this.state.playerSelection
+    console.log('total player selection - ' + this.state.playerSelection)
   }
 
   AiMovement(){
@@ -57,14 +62,35 @@ class App extends Component {
         break;
       case rockOverall:
         this.setState({imageOfAiSelection: '2'})
+          if(Number(this.state.imageOfAiSelection) > Number(this.state.imageOfPlayerSelection)){
+            this.setState({imageOfAiSelection: '2'})
+          } else {
+            this.setState({imageOfAiSelection: Math.floor((Math.random() * 3) + 1).toString(16)});
+            this.setState({playerSelection: []})
+            console.log('im using rock case - random')
+          }
         console.log('im using the rock case')
         break;
       case paperOverall:
-        this.setState({imageOfAiSelection: '3'});
+        this.setState({imageOfAiSelection: '3'})
+          if(Number(this.state.imageOfAiSelection) > Number(this.state.imageOfPlayerSelection) && Number(this.state.imageOfPlayerSelection) !== 1){
+            this.setState({imageOfAiSelection: '3'})
+          } else {
+            this.setState({imageOfAiSelection: Math.floor((Math.random() * 3) + 1).toString(16)})
+            this.setState({playerSelection: []})
+            console.log('im using paper - random')
+          }
         console.log('im using the paper case')
         break;
       case scissorsOverall:
         this.setState({imageOfAiSelection: '1'})
+          if(Number(this.state.imageOfAiSelection) === 1 && Number(this.state.imageOfPlayerSelection) === 3){
+            this.setState({imageOfAiSelection: '1'})
+          } else {
+            this.setState({imageOfAiSelection: Math.floor((Math.random() * 3) + 1).toString(16)})
+            this.setState({playerSelection: []})
+            console.log('im using scissors case - random')
+          }
         console.log('im using the scissors case')
         break;
       default:
@@ -73,30 +99,45 @@ class App extends Component {
       }
     
     }
-
-  determineWinner(){
-    if((this.state.imageOfAiSelection > this.state.imageOfPlayerSelection && this.state.imageOfAiSelection !== '1') || 
-    (this.state.imageOfAiSelection === '1' && this.state.imageOfPlayerSelection === '3')){
-      this.setState({previousWinner: 'The Machine'})
-    } else if((this.state.imageOfPlayerSelection > this.state.imageOfAiSelection && this.state.imageOfAiSelection !== '1') || 
-    (this.state.imageOfPlayerSelection === '1' && this.state.imageOfAiSelection === '3')) {
-      this.setState({previousWinner: 'The Human'})
+  componentDidUpdate(prevProps, prevState) {
+      if(prevState.roundsPlayed < this.state.roundsPlayed) {
+        const imageOfAiSelection = this.state.imageOfAiSelection;
+        const imageOfPlayerSelection = this.state.imageOfPlayerSelection;
+        if((imageOfAiSelection === '1' && imageOfPlayerSelection === '3') 
+        || (imageOfAiSelection === '2' && imageOfPlayerSelection === '1') 
+        || (imageOfAiSelection === '3' && imageOfPlayerSelection === '2')){
+          this.setState({previousWinner: this.state.previousWinner.concat('machine')})
+        } else if ((imageOfPlayerSelection === '1' && imageOfAiSelection === '3') 
+        || (imageOfPlayerSelection === '2' && imageOfAiSelection === '1')
+        || (imageOfPlayerSelection === '3' && imageOfAiSelection === '2')){
+          this.setState({previousWinner: this.state.previousWinner.concat('player')})
+        } else {
+          this.setState({previousWinner: this.state.previousWinner.concat('tie')})
+      }
     } else {
-      this.setState({previousWinner: 'Tie'})
+      console.log('What are you doing in the console log, checking for weird messages? Go and play the game, see if you can beat the Machine')
+    }
+    if(prevState.previousWinner.length < this.state.previousWinner.length){  
+      if(this.state.previousWinner[this.state.previousWinner.length - 1] === 'player'){
+        this.setState({playerTotal: this.state.playerTotal + 1})
+      } else if (this.state.previousWinner[this.state.previousWinner.length - 1] === 'machine'){
+        this.setState({aiTotal: this.state.aiTotal + 1})
+      } else {
+        this.setState({drawsTotal: this.state.drawsTotal + 1})
+      }
     }
   }
-
-  // updateAiSelection(){
-  //   this.setState({aiSelection: this.state.aiSelection.concat(this.state.imageOfAiSelection)})
-  //   console.log('this is the ai selection: '+ this.state.aiSelection)
-  // }
 
   resetSelections(){
     this.setState({
       imageOfPlayerSelection: '',
       imageOfAiSelection: '',
-      roundsPlayed: 1,
-      playerSelection: []
+      roundsPlayed: 0,
+      playerSelection: [],
+      previousWinner: [],
+      playerTotal: 0,
+      drawsTotal: 0,
+      aiTotal: 0
     })
   }
 
@@ -105,8 +146,6 @@ class App extends Component {
     this.updateRound();
     this.updatePlayerSelection(event);
     this.AiMovement();
-    // this.updateAiSelection();
-    this.determineWinner();
   }
 
   handleResetClick = () => {
@@ -116,13 +155,20 @@ class App extends Component {
   render() {
     const imageHuman = this.state.imageOfPlayerSelection;
     const imageAi = this.state.imageOfAiSelection;
+    const lastWinner = this.state.previousWinner[this.state.previousWinner.length - 1]
     return (
       <div>
         <Navigation />
-        <Score rounds={this.state.roundsPlayed} winner={this.state.previousWinner}/>
+        <Score 
+          rounds={this.state.roundsPlayed} 
+          winner={this.state.previousWinner} 
+          draws={this.state.drawsTotal} 
+          player={this.state.playerTotal} 
+          ai={this.state.aiTotal}
+        />
         <div className="containerImage">
           <SelectionHuman src={imageSelection[imageHuman]}/>
-          <Recent rounds={this.state.playerSelection}/>
+          <Recent rounds={lastWinner}/>
           <SelectionAI src={imageSelection[imageAi]}/>
         </div>
         <Picks onClick={this.handleClick}/>
