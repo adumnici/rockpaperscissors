@@ -33,7 +33,6 @@ class App extends Component {
   async changeHumanImage(event){
     this.setState({imageOfPlayerSelection: event.target.id});
     await this.state.imageOfPlayerSelection;
-    // console.log('current player selection ' + this.state.imageOfPlayerSelection.toString())
   }
 
   updateRound(){
@@ -43,7 +42,6 @@ class App extends Component {
   async updatePlayerSelection(event){
     this.setState({playerSelection: this.state.playerSelection.concat(event.target.id) })
     await this.state.playerSelection
-    console.log('total player selection - ' + this.state.playerSelection)
   }
 
   AiMovement(){
@@ -54,11 +52,9 @@ class App extends Component {
     const paperOverall = paperFilter > rockFilter && paperFilter > scissorsFilter;
     const scissorsOverall = scissorsFilter > rockFilter && scissorsFilter > paperFilter;
     const tie = rockFilter === paperFilter === scissorsFilter;
-    console.log(this.state.playerSelection)
     switch(tie || rockOverall || paperOverall || scissorsOverall) {
       case tie: 
         this.setState({imageOfAiSelection: Math.floor((Math.random() * 3) + 1).toString(16)});
-        console.log('im using tie case')
         break;
       case rockOverall:
         this.setState({imageOfAiSelection: '2'})
@@ -67,9 +63,7 @@ class App extends Component {
           } else {
             this.setState({imageOfAiSelection: Math.floor((Math.random() * 3) + 1).toString(16)});
             this.setState({playerSelection: []})
-            console.log('im using rock case - random')
           }
-        console.log('im using the rock case')
         break;
       case paperOverall:
         this.setState({imageOfAiSelection: '3'})
@@ -78,9 +72,7 @@ class App extends Component {
           } else {
             this.setState({imageOfAiSelection: Math.floor((Math.random() * 3) + 1).toString(16)})
             this.setState({playerSelection: []})
-            console.log('im using paper - random')
           }
-        console.log('im using the paper case')
         break;
       case scissorsOverall:
         this.setState({imageOfAiSelection: '1'})
@@ -89,13 +81,10 @@ class App extends Component {
           } else {
             this.setState({imageOfAiSelection: Math.floor((Math.random() * 3) + 1).toString(16)})
             this.setState({playerSelection: []})
-            console.log('im using scissors case - random')
           }
-        console.log('im using the scissors case')
         break;
       default:
         this.setState({imageOfAiSelection: Math.floor((Math.random() * 3) + 1).toString(16)})
-        console.log('default')
       }
     
     }
