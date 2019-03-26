@@ -1,4 +1,11 @@
-.img{
-    width: 50%;
-    height: 50%;
+.humanImg2{
+    transform:rotateY(180deg);
+    width: 100%;
+    height: auto;
+    box-shadow: 2px 2px grey;
+}
+
+.humanImg{
+    width: 100%;
+    height: auto;
 }

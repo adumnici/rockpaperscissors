@@ -8,8 +8,10 @@ import Reset from './components/Reset/Reset';
 import Score from './components/Score/Score';
 import SelectionHuman from './components/SelectionHuman/SelectionHuman';
 import SelectionAI from './components/SelectionAI/SelectionAI';
+import 'tachyons';
 
 const imageSelection = {
+  'default': '/defaultpic.png',
   '1': '/rock.png',
   '2': '/paper.png',
   '3': '/scissors.png'
@@ -19,8 +21,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state={
-      imageOfPlayerSelection: '',
-      imageOfAiSelection: '',
+      imageOfPlayerSelection: 'default',
+      imageOfAiSelection: 'default',
       roundsPlayed: 0,
       playerSelection: [],
       previousWinner: [],
@@ -119,8 +121,8 @@ class App extends Component {
 
   resetSelections(){
     this.setState({
-      imageOfPlayerSelection: '',
-      imageOfAiSelection: '',
+      imageOfPlayerSelection: 'default',
+      imageOfAiSelection: 'default',
       roundsPlayed: 0,
       playerSelection: [],
       previousWinner: [],
@@ -145,8 +147,9 @@ class App extends Component {
     const imageHuman = this.state.imageOfPlayerSelection;
     const imageAi = this.state.imageOfAiSelection;
     const lastWinner = this.state.previousWinner[this.state.previousWinner.length - 1]
+    const firstRound = this.state.roundsPlayed;
     return (
-      <div>
+      <div className=".aspect-ratio--16x9 font">
         <Navigation />
         <Score 
           rounds={this.state.roundsPlayed} 
@@ -156,12 +159,14 @@ class App extends Component {
           ai={this.state.aiTotal}
         />
         <div className="containerImage">
-          <SelectionHuman src={imageSelection[imageHuman]}/>
-          <Recent rounds={lastWinner}/>
-          <SelectionAI src={imageSelection[imageAi]}/>
+          <SelectionHuman className="playerImage" src={imageSelection[imageHuman]} firstRound={firstRound}/>
+          <Recent className="recent" rounds={lastWinner} firstRound={firstRound}/>
+          <SelectionAI className="aiImage" src={imageSelection[imageAi]} firstRound={firstRound}/>
         </div>
-        <Picks onClick={this.handleClick}/>
-        <Reset onClick={this.handleResetClick}/>
+        <div className="containerBtn">
+          <Picks className="picks" onClick={this.handleClick}/>
+          <Reset className="reset" onClick={this.handleResetClick}/>
+        </div>
       </div>
     );
   }

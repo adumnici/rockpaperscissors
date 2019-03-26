@@ -1,8 +1,40 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+
 .containerImage{
     display: grid;
     grid-template-columns: 0.4fr 0.2fr 0.4fr;
     grid-template-rows: 1fr;
-    border: 5px solid black;
     align-content: center;
-    justify-content: end;
+    justify-items: center;
+    padding-top: 1em;
+}
+
+.containerBtn{
+    display: grid;
+    grid-template-columns: 0.4fr 0.2fr 0.4fr;
+    grid-template-rows: 1fr;
+    align-content: center;
+    justify-items: center;
+    padding-top: 0.5em;
+}
+
+.font{
+    font-family: 'Roboto', sans-serif;
+}
+
+@media screen and (max-width: 500px){
+    .containerBtn {
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        grid-template-columns: 1fr;
+        width: 100%;
+    }
+
+    .containerImage {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 40% 20% 40%;
+        align-items: center;
+    }
 }

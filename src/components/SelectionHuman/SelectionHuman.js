@@ -1,12 +1,21 @@
 import React from 'react';
-// import './SelectionHuman.css'
+import './SelectionHuman.css'
 
-const SelectionHuman = ({src}) => {
-    return(
-        <div className='wrap'>
-            <img className='img' src={src} alt='The human selection'/>
-        </div>
-    )
+const SelectionHuman = ({src, firstRound}) => {
+    if(firstRound === 0) {
+        return(
+            <div className='wrap'>
+                <img className='humanImg' src={src} alt='The human selection'/>
+            </div> 
+        ) 
+    } else {
+        return(
+            <div className='wrap'>
+                <img className='humanImg2' src={src} alt='The human selection'/>
+            </div>
+        )
+    }
+  
 }
 
 export default SelectionHuman;

@@ -4,7 +4,7 @@ import './Reset.css'
 const Reset = ({onClick}) => {
     return(
         <div>
-            <button className='reset' onClick={onClick}>New game</button>
+            <button className="f6 grow no-underline br-pill ph3 pv2 mb2 dib white bg-near-black" onClick={onClick}>New game</button>
         </div>
     )
 }
