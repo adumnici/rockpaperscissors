@@ -7,7 +7,7 @@ const Navigation = () => {
         <h1 className="f3 f2-m f1-l fw2 black-90 mv3 center">
             The best rock paper scissors game, maybe ever !!
         </h1>
-        <h2>
+        <h2 className="f5 f4-m f3-l fw2 black-70 mt0 lh-copy">
             The rules of the game are simple: Rock beats scissors, scissors beats paper and last but not least paper beats rocks. 
         </h2>
         <div className="f5 f4-m f3-l fw2 black-50 mt0 lh-copy">

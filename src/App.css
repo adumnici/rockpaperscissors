@@ -31,10 +31,25 @@
         width: 100%;
     }
 
+    .playerImage{
+        grid-area: lf;
+    }
+    
+    .aiImage{
+        grid-area: rt;
+    }
+    
+    .recent{
+        grid-area: bt;
+    }
+
     .containerImage {
         display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: 40% 20% 40%;
+        grid-template-columns: auto;
+        grid-template-rows: auto;
         align-items: center;
+        grid-template-areas: 
+        "lf bt rt";
+        height: 150px;
     }
 }
